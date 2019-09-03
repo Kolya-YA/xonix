@@ -1,15 +1,16 @@
 export default class Controller {
-  // constructor(game, view) {
-  //   this.game = game;
-  //   this.view = view;
-  //   this.intervalId = null;
-  //   this.isPlaying = false;
+  constructor(game, view) {
+    this.game = game;
+    this.view = view;
+    // this.intervalId = null;
+    // this.isPlaying = false;
 
-  //   document.addEventListener('keydown', this.handleKeyDown.bind(this));
-  //   document.addEventListener('keyup', this.handleKeyUp.bind(this));
+    // document.addEventListener('keydown', this.handleKeyDown.bind(this));
+    // document.addEventListener('keyup', this.handleKeyUp.bind(this));
 
-  //   this.view.renderStartScreen();
-  // }
+    // this.view.renderStartScreen();
+    this.view.renderMainScreen(this.game.getState()); //temp
+  }
 
   // update() {
   //   this.game.movePieceDown();

@@ -6,25 +6,28 @@ export default class Game {
   //   '4': 1200,
   // };
 
-  // constructor() {
-  //   this.reset();
-  // }
+  constructor( { columns, rows, coastWidth } ) {
+    this.columns = columns;
+    this.rows = rows;
+    this.coastWidth = coastWidth;
+    this.reset();
+  }
 
-  // reset() {
+  reset() {
   //   this.score = 0;
   //   this.lines = 0;
   //   this.topOut = false;
-  //   this.playfield = this.createPlayfield();
+    this.playfield = this.createPlayfield();
   //   this.activePiece = this.createPiece();
   //   this.nextPiece = this.createPiece();
-  // }
+  }
 
   // get level() {
   //   return Math.floor(this.lines * 0.1);
   // }
 
-  // getState() {
-  //   const playfield = this.playfield.slice().map(x => x.slice());
+  getState() {
+    const playfield = this.playfield.slice().map(x => x.slice());
   //   const { x: pieceX, y: pieceY, blocks } = this.activePiece
     
   //   for (let y = 0; y < blocks.length; y++) {
@@ -34,19 +37,25 @@ export default class Game {
   //       }        
   //     }
   //   }
-  //   return  {
+    return  {
   //     score: this.score,
   //     level: this.level,
   //     lines: this.lines,
   //     isGameOver: this.topOut,
   //     nextPiece: this.nextPiece,
-  //     playfield: playfield
-  //   }
-  // }
+      playfield: playfield
+    }
+  }
 
-  // createPlayfield() {
-  //   return Array(20).fill(0).map(x => Array(10).fill(0));
-  // }
+  createPlayfield() {
+    return Array(this.rows).fill(0).map((line, index) => {
+      if (index < this.coastWidth || index >= this.rows - this.coastWidth) return Array(this.columns).fill(3);
+      return Array(this.coastWidth).fill(3)
+              .concat(Array(this.columns - this.coastWidth * 2).fill(0)
+              .concat(Array(this.coastWidth).fill(3)));
+    }
+    );
+  }
 
   // createPiece() {
   //   const index = Math.floor(Math.random() * 7);
