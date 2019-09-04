@@ -133,7 +133,7 @@ export default class View {
 
   renderBlock(x, y, width, height, color) {
     this.context.fillStyle = color;
-    this.context.strokeStyle = 'black';
+    this.context.strokeStyle = color === 'red' ? 'cyan' : 'black';
     this.context.lineWidth = 1;
 
 
