@@ -1,3 +1,4 @@
-# Tetris-CD
-Учебный проект с сайта [CodeDojo](codedojo.ru).
-# xonix
+# XONIX
+
+Game from childhood.
+
