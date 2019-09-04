@@ -15,22 +15,22 @@ export default class Game {
   }
 
   reset() {
+    this.level = 20;
   //   this.score = 0;
-  //   this.lines = 0;
   //   this.topOut = false;
     this.playfield = this.createPlayfield();
     this.hero = this.createHero();
+    this.seaEnemies = this.createSeaEnemies();
+    this.landEnemies = this.createLandEnemies();
   }
-
-  // get level() {
-  //   return Math.floor(this.lines * 0.1);
-  // }
 
   getState() {
     const playfield = this.playfield.slice().map(x => x.slice());
     const { x, y, bodyColor } = this.hero;
-
     playfield[y][x] = bodyColor;
+    this.seaEnemies.forEach(enemy => {
+      playfield[enemy.y][enemy.x] = enemy.enemyColor;
+    })
 
     return  {
   //     score: this.score,
@@ -61,6 +61,25 @@ export default class Game {
       bodyColor: 7,
       borderColor: 2
     };
+  }
+
+  createSeaEnemies() {
+    const seaEnemy = [];
+    for (let i = 0; i < this.level; i++) {
+      const side = Math.floor(Math.random() * 4);
+      const sideSize = side % 2 ? this.columns : this.rows;
+      const position = Math.floor(Math.random() * (sideSize - 4)) + 2
+      const direction = Math.floor(Math.random() * 4);
+      const x = side % 2 ? position : (side === 2 ? 77 : 2);
+      const y = side % 2 ? (side === 1 ? 47 : 2) : position;
+      const enemyColor = 8; // todo move to options
+      seaEnemy.push({ x, y, direction, enemyColor });
+    }
+    return seaEnemy;
+  }
+
+  createLandEnemies() {
+    return null;
   }
 
   // rotatePiece() {
@@ -145,6 +164,7 @@ export default class Game {
       this.playfield[y][x] = 5;
       return;
     }
+
     if (sailing) {
       if (this.playfield[y][x] === 5) {
         this.lifeOut();
