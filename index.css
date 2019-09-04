@@ -3,14 +3,14 @@ body {
     background-color: black;
 }
 
-#root {
+.games_name {
     padding: 3rem;
-    text-align: center
+    text-align: center;
 }
 
-#root h1 {
+.games_name h1 {
     font-family: 'Press Start 2P', Consolas, monospace;
-    color: white;
+    color: #0ee817;
 }
 
 #root canvas {
