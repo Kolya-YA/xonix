@@ -28,7 +28,6 @@ export default class Game {
 
   getState() {
     const playfield = this.playfield.slice().map(x => x.slice());
-    console.log(this.hero)
     const { x, y, bodyColor } = this.hero;
 
     playfield[y][x] = bodyColor;
@@ -37,7 +36,8 @@ export default class Game {
   //     score: this.score,
   //     level: this.level,
   //     lines: this.lines,
-  //     isGameOver: this.topOut,
+      // isGameOver: this.topOut,
+      isGameOver: false, //temp
   //     nextPiece: this.nextPiece,
       playfield: playfield
     }
@@ -91,33 +91,47 @@ export default class Game {
   //   }
   // }
 
-  // movePieceDown() {
-  //   if (this.topOut) return;
+  moveHeroUp() {
+    this.hero.y--;
+    if (this.isOut()) this.hero.y++;
+  };
 
-  //   this.activePiece.y++;
-  //   if (this.hasCollision()) {
-  //     this.activePiece.y--;
-  //     this.lockPiece();
-  //     const clearedLines = this.clearLines();
-  //     this.updateScore(clearedLines);
-  //     this.updatePieces();
-  //   }
+  moveHeroDown() {
+    // if (this.topOut) return;
 
-  // };
+    this.hero.y++;
+    if (this.isOut()) this.hero.y--;
+    // if (this.hasCollision()) {
+    //   this.activePiece.y--;
+    //   this.lockPiece();
+    //   const clearedLines = this.clearLines();
+    //   this.updateScore(clearedLines);
+    //   this.updatePieces();
+    // }
+  };
 
-  // movePieceRight() {
-  //   this.activePiece.x++;
-  //   if (this.hasCollision()) {
-  //     this.activePiece.x--;
-  //   }
-  // };
+  moveHeroRight() {
+    this.hero.x++;
+    if (this.isOut()) this.hero.x--;
+    // if (this.hasCollision()) {
+    //   this.activePiece.x--;
+    // }
+  };
 
-  // movePieceLeft() {
-  //   this.activePiece.x--;
-  //   if (this.hasCollision()) {
-  //     this.activePiece.x++
-  //   }
-  // };
+  moveHeroLeft() {
+    this.hero.x--;
+    if (this.isOut()) this.hero.x++;
+    // if (this.hasCollision()) {
+    //   this.activePiece.x++
+    // }
+  };
+
+  isOut() {
+    const { x, y } = this.hero;
+    if (x < 0 || y < 0 || x === this.columns || y === this.rows) {
+      return true;
+    }
+  }
 
   // hasCollision() {
   //   const playfield = this.playfield;

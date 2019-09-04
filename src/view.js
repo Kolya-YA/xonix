@@ -1,5 +1,6 @@
 export default class View {
   static colors = {
+    '0': 'black',
     '1': 'cyan',
     '2': 'blue',
     '3': 'orange',
@@ -88,7 +89,8 @@ export default class View {
       for (let x = 0; x < line.length; x++) {
         const block = line[x];
 
-        if (block) {
+        // if (block) {
+        if (true) {// temp
           this.renderBlock(
             this.playfieldX + (x * this.blockWidth),
             this.playfieldY + (y * this.blockHeight),
