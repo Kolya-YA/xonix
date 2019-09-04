@@ -148,6 +148,7 @@ export default class Game {
     if (sailing) {
       if (this.playfield[y][x] === 5) {
         this.lifeOut();
+        return;
       }
       if (this.playfield[y][x] === 3) {
         this.hero.sailing = false;
@@ -181,15 +182,7 @@ export default class Game {
     this.hero.x = this.columns / 2;
     this.hero.y = 0;
     this.hero.sailing = false;
-    this.playfield.map(line => {
-      line.map(cell => {
-        if (cell === 5) cell = 0;
-        return cell;
-      })
-      console.log('line', line);
-      
-      })
-    return;
+    this.playfield = this.playfield.map(line => line.map(cell => cell === 5 ? cell = 0 :cell))
   }
 
   // clearLines() {
