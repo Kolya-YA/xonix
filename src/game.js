@@ -57,6 +57,7 @@ export default class Game {
     return {
       x: this.columns / 2,
       y: 0,
+      sailing: false,
       bodyColor: 7,
       borderColor: 2
     };
@@ -94,6 +95,7 @@ export default class Game {
   moveHeroUp() {
     this.hero.y--;
     if (this.isOut()) this.hero.y++;
+    this.atSea();
   };
 
   moveHeroDown() {
@@ -101,6 +103,7 @@ export default class Game {
 
     this.hero.y++;
     if (this.isOut()) this.hero.y--;
+    this.atSea();
     // if (this.hasCollision()) {
     //   this.activePiece.y--;
     //   this.lockPiece();
@@ -113,6 +116,7 @@ export default class Game {
   moveHeroRight() {
     this.hero.x++;
     if (this.isOut()) this.hero.x--;
+    this.atSea();
     // if (this.hasCollision()) {
     //   this.activePiece.x--;
     // }
@@ -121,6 +125,7 @@ export default class Game {
   moveHeroLeft() {
     this.hero.x--;
     if (this.isOut()) this.hero.x++;
+    this.atSea();
     // if (this.hasCollision()) {
     //   this.activePiece.x++
     // }
@@ -130,6 +135,24 @@ export default class Game {
     const { x, y } = this.hero;
     if (x < 0 || y < 0 || x === this.columns || y === this.rows) {
       return true;
+    }
+  }
+
+  atSea() {
+    const { x, y, sailing } = this.hero;
+    if (this.playfield[y][x] === 0) {
+      if (!sailing) this.hero.sailing = true;
+      this.playfield[y][x] = 5;
+      return;
+    }
+    if (sailing) {
+      if (this.playfield[y][x] === 5) {
+        this.lifeOut();
+      }
+      if (this.playfield[y][x] === 3) {
+        this.hero.sailing = false;
+        this.fillCoast();
+      }
     }
   }
 
@@ -148,17 +171,26 @@ export default class Game {
   //   return false; 
   // };
 
-  // lockPiece() {
-  //   const { x: pieceX, y: pieceY, blocks } = this.activePiece;
+  fillCoast() {
+    console.log('fillCoast');
+  }
 
-  //   for (let y= 0; y < blocks.length; y++) {
-  //     for (let x = 0; x < blocks[y].length; x++) {
-  //       if (blocks[y][x]) {
-  //         this.playfield[pieceY + y][pieceX + x] = blocks[y][x];
-  //       }
-  //     }
-  //   }
-  // }
+  lifeOut() {
+    // -1 life and continue
+    console.log('Boom! -1 life');
+    this.hero.x = this.columns / 2;
+    this.hero.y = 0;
+    this.hero.sailing = false;
+    this.playfield.map(line => {
+      line.map(cell => {
+        if (cell === 5) cell = 0;
+        return cell;
+      })
+      console.log('line', line);
+      
+      })
+    return;
+  }
 
   // clearLines() {
   //   const rows = 20;
