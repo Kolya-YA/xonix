@@ -8,7 +8,8 @@ export default class View {
     '5': 'green',
     '6': 'purple',
     '7': 'red',
-    '8': 'white'
+    '8': 'white',
+    '9': 'gray'
   }
 
   constructor({ element, width, height, columns, rows }) {

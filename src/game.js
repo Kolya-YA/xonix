@@ -15,7 +15,7 @@ export default class Game {
   }
 
   reset() {
-    this.level = 20;
+    this.level = 5;
   //   this.score = 0;
   //   this.topOut = false;
     this.playfield = this.createPlayfield();
@@ -29,6 +29,9 @@ export default class Game {
     const { x, y, bodyColor } = this.hero;
     playfield[y][x] = bodyColor;
     this.seaEnemies.forEach(enemy => {
+      playfield[enemy.y][enemy.x] = enemy.enemyColor;
+    })
+    this.landEnemies.forEach(enemy => {
       playfield[enemy.y][enemy.x] = enemy.enemyColor;
     })
 
@@ -65,51 +68,34 @@ export default class Game {
 
   createSeaEnemies() {
     const seaEnemy = [];
-    for (let i = 0; i < this.level; i++) {
+    for (let i = 0; i < this.level * 2; i++) {
       const side = Math.floor(Math.random() * 4);
       const sideSize = side % 2 ? this.columns : this.rows;
       const position = Math.floor(Math.random() * (sideSize - 4)) + 2
       const direction = Math.floor(Math.random() * 4);
       const x = side % 2 ? position : (side === 2 ? 77 : 2);
       const y = side % 2 ? (side === 1 ? 47 : 2) : position;
-      const enemyColor = 8; // todo move to options
+      const enemyColor = 8; // move to options
       seaEnemy.push({ x, y, direction, enemyColor });
     }
     return seaEnemy;
   }
 
   createLandEnemies() {
-    return null;
+    const landEnemies = [];
+    for (let i = 0; i < this.level / 2; i++) {
+      const side = Math.floor(Math.random() * 3);
+      const sideSize = side % 2 ? this.columns : this.rows;
+      const position = Math.floor(Math.random() * sideSize);
+      const direction = Math.floor(Math.random() * 4);
+      const x = side % 2 ? position : (side === 2 ? 79 : 0);
+      const y = side % 2 ? 49 : position;
+      const enemyColor = 9; // move to options
+      landEnemies.push({ x, y, direction, enemyColor });
+    }
+    console.log(landEnemies)
+    return landEnemies;
   }
-
-  // rotatePiece() {
-  //   this.rotateBlocks();    
-  //   if (this.hasCollision()) this.rotateBlocks(false);
-  // }
-
-  // rotateBlocks(clockwise = true) {
-  //   const blocks = this.activePiece.blocks;
-  //   const x = Math.floor(blocks.length / 2);
-  //   const y = blocks.length - 1;
-
-  //   for (let i = 0; i < x; i++) {
-  //     for (let j = i; j < y - i; j++) {
-  //       const temp = blocks[i][j];
-
-  //       if (clockwise) {
-  //         blocks[i][j] = blocks[y - j][i];
-  //         blocks[y - j][i] = blocks[y - i][y - j];
-  //         blocks[y - i][y - j] = blocks[j][y - i];
-  //         blocks[j][y - i] = temp;
-  //       } else {
-  //         blocks[i][j] = blocks[j][y - i];
-  //         blocks[j][y - i] = blocks[y - i][y - j];
-  //         blocks[y - i][y - j] = blocks[y - j][i];
-  //         blocks[y - j][i] = temp;
-  //       }        
-  //     }
-  //   }
-  // }
 
   moveHeroUp() {
     this.hero.y--;
