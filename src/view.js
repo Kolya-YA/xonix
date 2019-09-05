@@ -1,15 +1,15 @@
 export default class View {
   static colors = {
-    '0': 'black',
-    '1': 'cyan',
+    '0': 'black', // dark see color
+    '1': 'cyan', //  pre coast color
     '2': 'blue',
-    '3': 'orange',
+    '3': 'orange', // coast color
     '4': 'yellow',
-    '5': 'green',
+    '5': 'green', // bulding stone color
     '6': 'purple',
-    '7': 'red',
-    '8': 'white',
-    '9': 'gray'
+    '7': 'red', // hero color
+    '8': 'white', // seaEnemy's color
+    '9': 'gray' // landEnemy's color'
   }
 
   constructor({ element, width, height, columns, rows }) {

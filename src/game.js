@@ -7,7 +7,6 @@ export default class Game {
   // };
 
   constructor(options) {
-    this.width = options.width;
     this.columns = options.columns;
     this.rows = options.rows;
     this.coastWidth = options.coastWidth;
@@ -15,7 +14,7 @@ export default class Game {
   }
 
   reset() {
-    this.level = 5;
+    this.level = 1;
   //   this.score = 0;
   //   this.topOut = false;
     this.playfield = this.createPlayfield();
@@ -68,7 +67,7 @@ export default class Game {
 
   createSeaEnemies() {
     const seaEnemy = [];
-    for (let i = 0; i < this.level * 2; i++) {
+    for (let i = 0; i < this.level * 1; i++) {
       const side = Math.floor(Math.random() * 4);
       const sideSize = side % 2 ? this.columns : this.rows;
       const position = Math.floor(Math.random() * (sideSize - 4)) + 2
@@ -93,13 +92,15 @@ export default class Game {
       const enemyColor = 9; // move to options
       landEnemies.push({ x, y, direction, enemyColor });
     }
-    console.log(landEnemies)
     return landEnemies;
   }
 
   moveHeroUp() {
     this.hero.y--;
-    if (this.isOut()) this.hero.y++;
+    if (this.isOut()) {
+      this.hero.y++;
+      return;
+    }
     this.atSea();
   };
 
@@ -107,7 +108,10 @@ export default class Game {
     // if (this.topOut) return;
 
     this.hero.y++;
-    if (this.isOut()) this.hero.y--;
+    if (this.isOut()) {
+      this.hero.y--;
+      return;
+    }
     this.atSea();
     // if (this.hasCollision()) {
     //   this.activePiece.y--;
@@ -120,7 +124,10 @@ export default class Game {
 
   moveHeroRight() {
     this.hero.x++;
-    if (this.isOut()) this.hero.x--;
+    if (this.isOut()) {
+      this.hero.x--;
+      return;
+    }
     this.atSea();
     // if (this.hasCollision()) {
     //   this.activePiece.x--;
@@ -129,7 +136,10 @@ export default class Game {
 
   moveHeroLeft() {
     this.hero.x--;
-    if (this.isOut()) this.hero.x++;
+    if (this.isOut()) {
+      this.hero.x++;
+      return;
+    }
     this.atSea();
     // if (this.hasCollision()) {
     //   this.activePiece.x++
@@ -177,11 +187,46 @@ export default class Game {
   //   }
   //   return false; 
   // };
-
+  
   fillCoast() {
-    console.log('fillCoast');
+    // console.log('fillCoast');
+    const clearTempFill = () => {
+      // playfield = playfield.map(line => line.map(cell => cell ===1 ? 3 : cell));
+    }
+    const playfield = this.getState().playfield;
+    
+    let otherSideLine = false;
+    method1:
+    for (let y = 2; y < this.rows - 2; y++) {
+      if (!(playfield[y].includes(5))) continue;
+      if (playfield[y][2] === 5) otherSideLine = !otherSideLine;
+      let otherSide = otherSideLine ? 1 : 0;
+      for (let x = 2; x < this.columns - 2; x++) {
+        if (playfield[y][x] === 3) continue;
+        if (playfield[y][x] === 5) {
+          otherSide++;
+        } 
+        if (playfield[y][x] === 0 && (otherSide === 0 || otherSide === 2)) {
+          playfield[y][x] = 1;
+          otherSide = 0;
+          continue;
+        }
+        
+        if (playfield[y][x] === 8 && !otherSide) {
+          clearTempFill();
+          console.log('First method #1 is failed at', x, y)
+          // break method1;
+          return;
+        }
+        
+      }
+    }
+    console.log(playfield)
+    playfield.map((line, y) => line.map((cell, x) => {
+      if (cell === 1 || cell === 5) this.playfield[y][x] = 3;
+    }))
   }
-
+  
   lifeOut() {
     // -1 life and continue
     console.log('Boom! -1 life');
